@@ -1,8 +1,13 @@
 /*		Chrome Marking Menu
  *  	by Brenton Simpson
  *  	bsimpson@appsforartists.com
- *		4/2/2010
+ *		12/10/2009
  */
+
+actions = ['pageDown', 'newTab', 'nextPage', 'nextTab', 'pageUp', 'previousTab', 'previousPage', 'closeTab'];
+
+const DEG_TO_RAD = Math.PI / 180;
+const RAD_TO_DEG = 180 / Math.PI;
 
 // Extensions CSS support is hit-or-miss, so we set the important styles in JavaScript.
 function zeroMargins(element) {	
@@ -10,12 +15,28 @@ function zeroMargins(element) {
 	element.style.marginLeft = element.style.marginRight = element.style.marginTop = element.style.marginBottom = '0px';
 }
 
+var distanceToItems = 55;
+var itemSize = 42;
+var rimSize = 13;
+var menuDiameter = 2 * rimSize + itemSize + 2 * distanceToItems;
+
 var hovering = false;
 var clickLocation;
 var clickTarget;
 
-//load variables from localStorage.  function in defaultSettings.js
-initializeVariables();
+getVariableFromLocalStorage('triggerButton', '1');
+
+function getVariableFromLocalStorage(variableName, defaultValue) {
+	this[variableName] = defaultValue;
+	
+	var onResponse = function (response) {
+		if (response != null)
+			this[variableName] = response;
+		// else
+		// 	console.log(variableName + ' not found in localStorage!  ' + response)
+	}
+	chrome.extension.sendRequest({'action': 'getFromLocalStorage', 'variableName': variableName}, onResponse)
+}
 
 var markingMenu, markingMenuBackground, markingMenuLabel, markingMenuItems, highlightImage;
 function drawMenu() {
@@ -32,7 +53,7 @@ function drawMenu() {
 	
 	markingMenuBackground = document.createElement('img');
 	zeroMargins(markingMenuBackground);
-	markingMenuBackground.src = chrome.extension.getURL('images/background.png');
+	markingMenuBackground.src = chrome.extension.getURL('background.png');
 	markingMenuBackground.style.position = 'absolute';
 	markingMenuBackground.style.left = markingMenuBackground.style.top = -menuDiameter / 2 + 'px';
 	markingMenu.appendChild(markingMenuBackground);
@@ -56,7 +77,7 @@ function drawMenu() {
 	highlightImage = document.createElement('img');
 	zeroMargins(highlightImage);
 	highlightImage.id = 'markingMenuHighlight';
-	highlightImage.src = chrome.extension.getURL('images/highlight.png');
+	highlightImage.src = chrome.extension.getURL('highlight.png');
 	highlightImage.style.position = 'absolute';
 	highlightImage.style.left = highlightImage.style.top = '0px';
 	
@@ -64,7 +85,6 @@ function drawMenu() {
 	for (var i = 0; i < actions.length; i++){
 		markingMenuItem = markingMenuItems[i] = document.createElement('div');
 		action = actions[i];
-		actionImage = actionImages[i];
 		
 		zeroMargins(markingMenuItem)
 		
@@ -72,10 +92,7 @@ function drawMenu() {
 		zeroMargins(image);
 		image.className = 'markingMenuImage';
 		image.title = image.alt = action;
-		
-		if (actionImage.indexOf('//' == -1))
-		 	actionImage = chrome.extension.getURL(actionImage);
-		image.src = actionImage;
+		image.src = chrome.extension.getURL(action + '.png');
 		
 		markingMenuItem.id = 'markingMenuItem' + String(i);
 		markingMenuItem.className = 'markingMenuItem';
@@ -92,14 +109,8 @@ function drawMenu() {
 	}
 }
 
-window.addEventListener(MarkingMenuEvent.VARIABLES_INITIALIZED, drawMenu);
-window.addEventListener(MarkingMenuEvent.VARIABLES_INITIALIZED, blockDefaultMouseEvents);
+drawMenu();
 addEventListener('mousedown', onMouseDown);
-
-function blockDefaultMouseEvents() {	
-	if (triggerButton == RIGHT_MOUSE)
-		addEventListener('contextmenu', blockContextMenu);
-}
 
 //Detects all <a> links in initial page load and AJAX insertions
 //and locks out the menu when you hover over one.
@@ -129,11 +140,6 @@ function releaseHovering(event) {
 	hovering = false;
 }
 
-function blockContextMenu(event) {
-	if (!hovering)
-		event.preventDefault();
-}
-	
 function showMenu(){	
 	document.body.appendChild(markingMenu);
 
@@ -150,11 +156,9 @@ function onMouseDown(event){
 		markingMenu.style.top = clickLocation[1] + 'px';
 
 		if (hovering) {
-			if (triggerButton == MIDDLE_MOUSE)
-				addEventListener('mousemove', onHoverClickMouseMove);
+			addEventListener('mousemove', onHoverClickMouseMove);
 		} else {
 			event.preventDefault();
-			event.stopPropagation();
 			showMenu();
 		}
 	}
@@ -173,16 +177,15 @@ function onMouseMove(event){
 	var index = getIndexByMouseEvent(event)
 	
 	if (index == null) {
-		markingMenuLabel.innerHTML = ''; 
-		
 		if (highlightImage && highlightImage.parentNode)
 			highlightImage.parentNode.removeChild(highlightImage);
+			markingMenuLabel.innerHTML = ''; 
 	} else {
 		if (highlightImage && markingMenuItems[index]) {
 			markingMenuItems[index].appendChild(highlightImage);
 
 			//convert camelCase to multiline string and display label
-			var label = actions[index].split('.').pop().replace( /(.)([A-Z])/g, function(match, first, last) { 
+			var label = actions[index].replace( /(.)([A-Z])/g, function(match, first, last) { 
 				return first + '<br />' + last.toLowerCase(); 
 			}); 
 			label = label[0].toUpperCase() + label.substr(1);
@@ -195,28 +198,11 @@ function onMouseUp(event){
 	if (event.button == triggerButton){
 		var index = getIndexByMouseEvent(event);
 		
-		if (index != null) {
-			var action = actions[index];
-			
-			var onMessageResponse = function(handled) {
-				if (!handled) {
-					var customEvent = document.createEvent('Event');
-					customEvent.initEvent(action);
-					window.dispatchEvent(customEvent);
-					document.dispatchEvent(customEvent);
-					document.body.dispatchEvent(customEvent);
-				}
-			}
-			chrome.extension.sendRequest({'action': action, 'framePath': document.location.href}, onMessageResponse);
-		}
+		if (index != null)
+			chrome.extension.sendRequest({'action': actions[index], 'framePath': document.location.href});
 		
 		if (markingMenu && markingMenu.parentNode)
 			markingMenu.parentNode.removeChild(markingMenu);
-
-		markingMenuLabel.innerHTML = ''; 
-		
-		if (highlightImage && highlightImage.parentNode)
-			highlightImage.parentNode.removeChild(highlightImage);
 
 		//clickTarget and clickLocation are left in memory in case a domAction needs them
 

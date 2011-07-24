@@ -1,24 +1,34 @@
 /*		Chrome Marking Menu
  *  	by Brenton Simpson
  *  	bsimpson@appsforartists.com
- *		4/2/2010
+ *		1/30/2010
  */
 
-window.addEventListener('com.appsforartists.pageUp', function(event) {
-	scrollPage(-1);
-});
-
-window.addEventListener('com.appsforartists.pageDown', function(event) {
-	scrollPage(1);
-});
-
-window.addEventListener('com.appsforartists.nextPage', function(event) {
-	history.forward();
-});
-
-window.addEventListener('com.appsforartists.previousPage', function(event) {
-	history.back();
-});
+chrome.extension.onRequest.addListener(
+	function(message, sender, sendResponse) {
+		switch (message.action) {
+			case 'pageUp':
+				if (!message.framePath || message.framePath == document.location.href)
+					scrollPage(-1);
+				break;
+				
+			case 'pageDown':
+				if (!message.framePath || message.framePath == document.location.href)
+					scrollPage(1);
+				break;
+				
+			case 'nextPage':
+				history.forward();
+				break;
+				
+			case 'previousPage':
+				history.back();
+				break;
+		}
+		
+		sendResponse();
+	}
+)
 
 function scrollPage(direction) {
 	/*	If the clickTarget is in a scrollable element (i.e. a div with overflowY set to 'scroll'),
