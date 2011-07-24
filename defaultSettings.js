@@ -19,11 +19,11 @@ var defaultSettings = {
 	'actions':	[
 		'com.appsforartists.pageDown',
 		'com.appsforartists.newTab',
-		'com.appsforartists.nextPage',
-		'com.appsforartists.nextTab',
-		'com.appsforartists.pageUp',
-		'com.appsforartists.previousTab',
 		'com.appsforartists.previousPage',
+		'com.appsforartists.previousTab',
+		'com.appsforartists.pageUp',
+		'com.appsforartists.nextTab',
+		'com.appsforartists.nextPage',
 		'com.appsforartists.closeTab'
 	],
 	'actionImages':		[],
