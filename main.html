@@ -1,49 +1,23 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src = 'tabManager.js' type = 'text/javascript'></script>
+		<script src = 'tabManager.js' type = 'text/javascript' />
 		<script type = 'text/javascript'>
 			/*		Chrome Marking Menu
 			 *  	by Brenton Simpson
 			 *  	bsimpson@appsforartists.com
-			 *		4/2/2010
+			 *		12/5/2009
 			 */
 
-			/* Intra-page actions are handled by domActions.js in chrome.tabs, so we send 
+		
+			/* Intra-page actions are handled by contentActions.js in chrome.tabs, so we send 
 			 * action messages back to the tab they came from to be handled.
 			 */
+			
 			chrome.extension.onRequest.addListener(
 				function(message, sender, sendResponse) {
 					if (message.action && sender.tab) {
-						switch (message.action) {
-							case 'getFromLocalStorage':
-								var value;
-
-								if (localStorage.hasOwnProperty(message.key))
-									value = JSON.parse(localStorage[message.key]);
-								
-								if (!value && message.defaultValue) {									
-									localStorage[message.key] = JSON.stringify(message.defaultValue);
-									value = message.defaultValue;
-								}
-								
-								
-								sendResponse({
-									'key':		message.key,
-									'value':	value
-								});
-								break;
-
-							case 'storeInLocalStorage':
-								localStorage[message.key] = JSON.stringify(message.value);
-								sendResponse();
-								break;
-								
-							default:
-								//send back a boolean if we've handled the event
-								sendResponse(handleMessageWithTabManager(message));
-								break;
-						}
+						chrome.tabs.sendRequest(sender.tab.id, message);
 					}
 				}
 			);
