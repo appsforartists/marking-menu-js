@@ -1,41 +1,43 @@
 /*		Chrome Marking Menu
  *  	by Brenton Simpson
  *  	bsimpson@appsforartists.com
- *		4/2/2010
+ *		7/23/2011
  */
 
-function handleMessageWithTabManager(message) {
-	switch (message.action) {
-		case 'com.appsforartists.newTab':
-			chrome.tabs.getSelected(null, function(tab) {
-				chrome.tabs.create({
-					'url':		'chrome://newtab/',
-					'index':	tab.index + 1
+chrome.extension.onRequest.addListener(
+	function(message, sender, sendResponse) {
+		switch (message.action) {
+			case 'newTab':
+				chrome.tabs.getSelected(null, function(tab) {
+					chrome.tabs.create({
+						'url':		'chrome://newtab/',
+						'index':	tab.index + 1
+					});
 				});
-			});
-			break;
-			
-		case 'com.appsforartists.closeTab':
-			chrome.tabs.getSelected(null, function(tab) {
-				chrome.tabs.remove(tab.id);
-			});
-			break;
-			
-		case 'com.appsforartists.nextTab':
-			goToTab(1)
-			break;
-			
-		case 'com.appsforartists.previousTab':
-			goToTab(-1)
-			break;
-			
-		default:
-			//prevent sending response to messages that aren't handled here.
-			return false;
+				break;
+				
+			case 'closeTab':
+				chrome.tabs.getSelected(null, function(tab) {
+					chrome.tabs.remove(tab.id);
+				});
+				break;
+				
+			case 'nextTab':
+				goToTab(1)
+				break;
+				
+			case 'previousTab':
+				goToTab(-1)
+				break;
+				
+			default:
+				//prevent sending response to messages that aren't handled here.
+				return;
+		}
+		
+		sendResponse();
 	}
-	
-	return true;
-}
+)
 
 function goToTab(offset){
 	chrome.tabs.getAllInWindow(null, function(tabs) {
