@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			Preferences for Chrome Marking Menu by Brenton Simpson
+		</title>
+		<style type="text/css" media="screen">
+			* {
+				background-color:	#FFFFFF;
+				color:				#34699D;
+				font-family:		"Myriad Pro", "Century Gothic";
+				font-weight:		100;
+				margin-top:			0px;
+				margin-bottom:		0px;
+				line-height:		1.5em;
+			}
+			
+			header {
+				text-align:			center;
+			}
+			
+			h1 {
+				padding-top:			15px;
+			}
+			
+			h1, h2, h3 {
+				margin:				0px;
+				line-height:		1.25em;
+			}
+			
+			.section_title {
+				text-align:			left;
+			}
+						
+			form {
+				padding-top:		10px;
+				position:			relative;
+				left:				50%;
+				width:				700px;
+				margin-left:		-350px;
+			}	
+			
+			ol {
+				margin:				0px;
+				padding-left:		15px;
+			}
+			
+			li {
+				display:			block;
+				margin:				0px;
+				padding:			5px;
+			}
+			
+			label {
+				display:			block;
+				margin-left:		15px;
+			}
+			
+			a {
+				text-decoration:	none;
+			}
+			
+			a:hover {
+				text-decoration:	underline;
+			}
+		</style>
+		<script>
+			var preferences;
+			var initialized = [];
+			
+			function setValueInFormByStorage(inputName) {
+				if (localStorage.hasOwnProperty(inputName) && preferences.hasOwnProperty(inputName)) {
+					switch (preferences[inputName][0].type) {
+						case 'radio':
+							for (var i = 0; i < preferences[inputName].length; i++) {
+								if (localStorage[inputName] == preferences[inputName][i].value) {
+									preferences[inputName][i].checked = true;
+								}
+							}
+							break;
+					}
+				}
+			}
+			
+			function setValueInStorageByInput(inputName) {
+				if (preferences.hasOwnProperty(inputName)) {
+					var value;
+					
+					switch (preferences[inputName][0].type) {
+						case 'radio':
+							for (var i = 0; i < preferences[inputName].length; i++) {
+								if (preferences[inputName][i].checked) {
+									 localStorage[inputName] = preferences[inputName][i].value;
+								}
+							}
+							break;
+					}
+					
+					if (value != null)
+						localStorage[inputName] = value;
+				}
+			}
+			
+			function addListenersToForm(event) {
+				preferences = preferences || document.getElementById('preferences');
+				for (var i = 0; i < preferences.length; i++) {
+					preferences[i].addEventListener('click', onInputClick);
+				}
+			}
+			
+			function initializeForm(event) {
+				preferences = preferences || document.getElementById('preferences');
+				for (var inputName in localStorage) {
+					setValueInFormByStorage(inputName)
+				}
+			}
+			addEventListener('DOMContentLoaded', addListenersToForm);
+			addEventListener('DOMContentLoaded', initializeForm);
+			
+			function onInputClick(event) {
+				setValueInStorageByInput(event.target.name);
+			}
+		</script>
+	</head>
+	<body>
+		<header>
+			<h1>
+				Chrome Marking Menu
+			</h1>
+			<h2>
+				by <a href='http://appsforartists.com/'>Brenton Simpson</a>
+			</h2>
+			<h3>
+				Last updated 1/30/2010
+			</h3>
+		</header>
+		<form id='preferences'>
+			<h3 class='section_title'>
+				Preferences
+			</h3>
+			<div style = 'font-size: 12pt; padding: .5em;'>
+				This section is a work-in-progress.&ensp;<span style = 'font-weight: bold;'>You can use the following settings, but they won't take effect until Chrome Marking Menu is updated.</span>&ensp;Like all extensions, updates to Chrome Marking Menu are automatically downloaded to your browser as they become available.
+			</div>
+			<ol>
+				<li>
+					Activated by:
+					<label>
+						<input type='radio' name='triggerButton' value='1'>
+							Middle mouse button
+						</input>
+					</label>
+					<label>
+						<input type='radio' name='triggerButton' value='2'>
+							Right mouse button
+						</input>
+					</label>
+				</li>
+			</ol>
+		</form>  
+	</body>
+</html>

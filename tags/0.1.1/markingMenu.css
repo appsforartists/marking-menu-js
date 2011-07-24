@@ -1,0 +1,26 @@
+/*		Chrome Marking Menu
+ *  	by Brenton Simpson
+ *  	bsimpson@appsforartists.com
+ *		12/5/2009
+ */
+
+#markingMenu, .markingMenuItem, .markingMenuImage, .markingMenuHighlight {
+	position:			'absolute';
+	margin:				'0px 0px 0px 0px';
+	left:				'0px';
+	top:				'0px';
+	right:				'0px';
+	bottom:				'0px';
+}
+
+#markingMenuLabel {
+	position:			'absolute';
+	font-size:			'10px';
+	top:				'-1.5em';
+	height:				'3em';
+	line-height:		'1.5em';
+	font-family:		'Myriad Pro', 'Lucida Grande', 'Trebuchet MS', sans-serif;
+	text-align:			center;
+	color:				'#5188BC';
+	background-color:	'#FFFFFF';
+}

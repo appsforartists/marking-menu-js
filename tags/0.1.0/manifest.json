@@ -1,0 +1,18 @@
+{
+	"name": "Chrome Marking Menu by Brenton Simpson",
+	"version": "0.1",
+	"description": "Allows you to navigate with pen flicks/mouse gestures.  To use, hold the middle-mouse button, select an action, and release.",
+	"background_page": "main.html",
+	"content_scripts": [
+		{
+			"run_at":	"document_start",
+			"matches":	["http://*/*", "file:///*/*"],
+			"js":		["markingMenu.js", "domActions.js"],
+			"css":		["markingMenu.css"]
+		}
+	],
+	"permissions": [
+		"tabs"
+	],
+	"update_url": "http://appsforartists.com/chromemarkingmenu/updates.xml"
+}
