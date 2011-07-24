@@ -15,33 +15,17 @@
 				line-height:		1.5em;
 			}
 			
-			body {
-				width:				800px;
-				margin:				auto;
-			}
-			
 			header {
 				text-align:			center;
 			}
 			
 			h1 {
-				padding-top:		15px;
+				padding-top:			15px;
 			}
 			
 			h1, h2, h3 {
 				margin:				0px;
 				line-height:		1.25em;
-			}
-			
-			p {
-				width:				760px;
-				margin:				auto;
-				font-size:			12pt; 
-				padding:			.5em;
-			}
-			
-			#refresh_reminder {
-				width:				700px;
 			}
 			
 			.section_title {
@@ -51,6 +35,9 @@
 			form {
 				padding-top:		10px;
 				position:			relative;
+				left:				50%;
+				width:				700px;
+				margin-left:		-350px;
 			}	
 			
 			ol {
@@ -62,10 +49,6 @@
 				display:			block;
 				margin:				0px;
 				padding:			5px;
-			}
-			
-			li.inline {
-				display:			inline-block;
 			}
 			
 			label {
@@ -80,46 +63,17 @@
 			a:hover {
 				text-decoration:	underline;
 			}
-			
-			#menu_item_inputs {
-				position:			relative;
-				height:				440px;
-				width:				558px;
-				margin:				auto;
-			}
-			
-			#menu_background {
-				position:			relative;
-				display:			block;
-				width:				178px;
-				height:				178px;
-				margin:				auto;
-				padding:			100px;
-			}
-			
-			.item_input {
-				position: 			absolute;
-				width:				175px;
-				height:				44px;
-				margin-left:		189px;
-				margin-top:			189px;
-			}
-			
-			.item_input > input {
-				display:			block;
-				width:				100%;
-			}
 		</style>
-		<script src = 'defaultSettings.js' type = 'text/javascript'></script>
 		<script>
 			var preferences;
-						
+			var initialized = [];
+			
 			function setValueInFormByStorage(inputName) {
 				if (localStorage.hasOwnProperty(inputName) && preferences.hasOwnProperty(inputName)) {
 					switch (preferences[inputName][0].type) {
 						case 'radio':
 							for (var i = 0; i < preferences[inputName].length; i++) {
-								if (JSON.parse(localStorage[inputName]) == preferences[inputName][i].value) {
+								if (localStorage[inputName] == preferences[inputName][i].value) {
 									preferences[inputName][i].checked = true;
 								}
 							}
@@ -136,7 +90,7 @@
 						case 'radio':
 							for (var i = 0; i < preferences[inputName].length; i++) {
 								if (preferences[inputName][i].checked) {
-									 localStorage[inputName] = JSON.stringify(preferences[inputName][i].value);
+									 localStorage[inputName] = preferences[inputName][i].value;
 								}
 							}
 							break;
@@ -144,65 +98,6 @@
 					
 					if (value != null)
 						localStorage[inputName] = value;
-				}
-			}
-			
-			function createMenuItemInputs(event) {
-				var menuItemsSection = document.getElementById('menu_item_inputs');
-				var actionCount = actions.length;
-				
-				for (var i = 0; i < actionCount; i++) {
-					var itemDiv = document.createElement('div');
-					itemDiv.className = 'item_input';
-					
-					var actionInput = document.createElement('input');
-					actionInput.className = 'action_input';
-					actionInput.type = 'text';
-					
-					var imageInput = document.createElement('input');
-					imageInput.className = 'image_input';
-					imageInput.type = 'text';
-					
-					itemDiv.appendChild(actionInput);
-					itemDiv.appendChild(imageInput);
-					menuItemsSection.appendChild(itemDiv);
-					
-					itemDivX = Math.round(189 * Math.cos((i * 360 / actionCount - 90) * DEG_TO_RAD));
-					itemDivY = Math.round(189 * Math.sin((i * 360 / actionCount - 90) * DEG_TO_RAD));
-					
-					var itemDivHeight = parseInt(getComputedStyle(itemDiv).height.split('px').shift());
-
-					if (itemDivY == 0)
-						itemDivY -= itemDivHeight / 2;
-					else if (itemDivY > 0)
-						itemDivY -= itemDivHeight;
-					
-					
-					itemDiv.style.left	= itemDivX + 'px';
-					itemDiv.style.top	= itemDivY + 'px';
-				}
-			}
-			
-			function updateStorageByMenuItemInputs(event) {
-				var actionInputs = document.getElementsByClassName('action_input');
-				var imageInputs = document.getElementsByClassName('image_input');
-				
-				for (var i = 0; i < actions.length; i++) {
-					actions[i] = actionInputs[i].value;
-					actionImages[i] = imageInputs[i].value;
-				}
-
-				storeInLocalStorage('actions', actions);
-				storeInLocalStorage('actionImages', actionImages);
-			}
-			
-			function updateMenuItemInputsByStorage(event) {
-				var actionInputs = document.getElementsByClassName('action_input');
-				var imageInputs = document.getElementsByClassName('image_input');
-				
-				for (var i = 0; i < actions.length; i++) {
-					actionInputs[i].value = actions[i];
-					imageInputs[i].value = actionImages[i];
 				}
 			}
 			
@@ -214,19 +109,13 @@
 			}
 			
 			function initializeForm(event) {
-				if (!document.getElementsByClassName('action_input').length)
-					createMenuItemInputs();
-				
-				updateMenuItemInputsByStorage();
-				
 				preferences = preferences || document.getElementById('preferences');
 				for (var inputName in localStorage) {
-					setValueInFormByStorage(inputName);
+					setValueInFormByStorage(inputName)
 				}
 			}
-			window.addEventListener(MarkingMenuEvent.VARIABLES_INITIALIZED, addListenersToForm);
-			window.addEventListener(MarkingMenuEvent.VARIABLES_INITIALIZED, initializeForm);
-			addEventListener('DOMContentLoaded', initializeVariables);
+			addEventListener('DOMContentLoaded', addListenersToForm);
+			addEventListener('DOMContentLoaded', initializeForm);
 			
 			function onInputClick(event) {
 				setValueInStorageByInput(event.target.name);
@@ -242,58 +131,31 @@
 				by <a href='http://appsforartists.com/'>Brenton Simpson</a>
 			</h2>
 			<h3>
-				Last updated 4/2/2010
+				Last updated 2/1/2010
 			</h3>
 		</header>
-		<p id = 'refresh_reminder'>
-			These changes will take effect for all new tabs created.  If you already have a tab open, just reload it to apply them there as well.  Remember, Google doesn't allow extensions on secure pages, so you can't test the Menu on this page.
-		</p>
 		<form id='preferences'>
 			<h3 class='section_title'>
 				Preferences
 			</h3>
-			<ol>
-				<li class = 'inline'>
-					<a href = 'javascript:resetDefaultSettings();'>
-						Reset Defaults
-					</a>
-				</li>
-				<li class = 'inline'>
-					<a href = 'javascript:updateStorageByMenuItemInputs();'>
-						Save Changes
-					</a>
-				</li>
-			</ol>
+			<div style = 'font-size: 12pt; padding: .5em;'>
+				These changes will take effect for all new tabs created.  If you already have a tab open, just reload it to apply them there as well.  Remember, Google doesn't allow extensions on secure pages, so you can't test the Menu on this page.
+			</div>
 			<ol>
 				<li>
 					Activated by:
 					<label>
-						<input type='radio' name='triggerButton' value='1' />
-						Middle mouse button
+						<input type='radio' name='triggerButton' value='1'>
+							Middle mouse button
+						</input>
 					</label>
 					<label>
-						<input type='radio' name='triggerButton' value='2' />
-						Right mouse button
+						<input type='radio' name='triggerButton' value='2'>
+							Right mouse button
+						</input>
 					</label>
 				</li>
 			</ol>
-		</form>  
-		<form id = 'menu_items'>
-			<h3 class='section_title'>
-				Menu items
-			</h3>
-			<p class = 'section_instructions'>
-				If you'd like to customize the actions and icons that appear in Chrome Marking Menu, this is where you do it.  The following pairs of text boxes each correspond to an icon in the menu.  The top box is the event that is dispatched when that action is selected, while the bottom is the URL to the icon you'd like shown.
-			</p>
-			<div id = 'menu_item_inputs'>
-				<img id = 'menu_background' src = 'images/background.png' />
-				<!-- inputs appended by JavaScript -->
-			</div>
-			<p class = 'section_instructions'>
-				<a href = 'customActionInstructions.html'>
-					For more information on adding a custom event, click here.
-				</a>
-			</p>
 		</form>  
 	</body>
 </html>
