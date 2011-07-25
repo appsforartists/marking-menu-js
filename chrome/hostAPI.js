@@ -4,8 +4,6 @@
  *	7/24/2011
  */
 
-var self = this;
-
 var hostAPI = {
 	'getURL':			function(path) {
 		return chrome.extension.getURL(path);
@@ -18,7 +16,7 @@ var hostAPI = {
 		}
 	
 		var setLocalVariable = function(response) {
-			self[response.key] = response.value;
+			window[response.key] = response.value;
 			
 			if (callback)
 				callback();
@@ -31,7 +29,7 @@ var hostAPI = {
 		message = {
 			'action':	'storeInLocalStorage',
 			'key':		key,
-			'value':	self[key],
+			'value':	window[key],
 		}
 
 		this.sendRequest(message, callback);
