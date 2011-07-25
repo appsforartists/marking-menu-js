@@ -3,7 +3,6 @@
 <plist version="1.0">
 <array>
 	<dict>
-		<!-- Might be a good idea to add firstRun = true in here, if we set default values via Extension Builder  -->
 		<key>DefaultValue</key>
 		<real>1</real>
 		<key>Key</key>
@@ -24,10 +23,22 @@
 		</array>
 	</dict>
 	<dict>
-		<key>Key</key>
-		<string>actions</string>
+		<key>Type</key>
+		<string>Separator</string>
+	</dict>
+	<dict>
 		<key>Title</key>
 		<string>Actions</string>
+		<key>Type</key>
+		<string>Group</string>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<string>com.appsforartists.previousPage</string>
+		<key>Key</key>
+		<string>action2</string>
+		<key>Title</key>
+		<string>0°</string>
 		<key>Titles</key>
 		<array>
 			<string>Page up</string>
@@ -40,7 +51,231 @@
 			<string>Close tab</string>
 		</array>
 		<key>Type</key>
-		<string>ListBox</string>
+		<string>PopUpButton</string>
+		<key>Values</key>
+		<array>
+			<string>com.appsforartists.pageUp</string>
+			<string>com.appsforartists.pageDown</string>
+			<string>com.appsforartists.previousPage</string>
+			<string>com.appsforartists.nextPage</string>
+			<string>com.appsforartists.previousTab</string>
+			<string>com.appsforartists.nextTab</string>
+			<string>com.appsforartists.newTab</string>
+			<string>com.appsforartists.closeTab</string>
+		</array>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<string>com.appsforartists.newTab</string>
+		<key>Key</key>
+		<string>action1</string>
+		<key>Title</key>
+		<string>45°</string>
+		<key>Titles</key>
+		<array>
+			<string>Page up</string>
+			<string>Page down</string>
+			<string>Previous page</string>
+			<string>Next page</string>
+			<string>Previous tab</string>
+			<string>Next tab</string>
+			<string>New tab</string>
+			<string>Close tab</string>
+		</array>
+		<key>Type</key>
+		<string>PopUpButton</string>
+		<key>Values</key>
+		<array>
+			<string>com.appsforartists.pageUp</string>
+			<string>com.appsforartists.pageDown</string>
+			<string>com.appsforartists.previousPage</string>
+			<string>com.appsforartists.nextPage</string>
+			<string>com.appsforartists.previousTab</string>
+			<string>com.appsforartists.nextTab</string>
+			<string>com.appsforartists.newTab</string>
+			<string>com.appsforartists.closeTab</string>
+		</array>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<string>com.appsforartists.pageDown</string>
+		<key>Key</key>
+		<string>action0</string>
+		<key>Title</key>
+		<string>90°</string>
+		<key>Titles</key>
+		<array>
+			<string>Page up</string>
+			<string>Page down</string>
+			<string>Previous page</string>
+			<string>Next page</string>
+			<string>Previous tab</string>
+			<string>Next tab</string>
+			<string>New tab</string>
+			<string>Close tab</string>
+		</array>
+		<key>Type</key>
+		<string>PopUpButton</string>
+		<key>Values</key>
+		<array>
+			<string>com.appsforartists.pageUp</string>
+			<string>com.appsforartists.pageDown</string>
+			<string>com.appsforartists.previousPage</string>
+			<string>com.appsforartists.nextPage</string>
+			<string>com.appsforartists.previousTab</string>
+			<string>com.appsforartists.nextTab</string>
+			<string>com.appsforartists.newTab</string>
+			<string>com.appsforartists.closeTab</string>
+		</array>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<string>com.appsforartists.closeTab</string>
+		<key>Key</key>
+		<string>action7</string>
+		<key>Title</key>
+		<string>135°</string>
+		<key>Titles</key>
+		<array>
+			<string>Page up</string>
+			<string>Page down</string>
+			<string>Previous page</string>
+			<string>Next page</string>
+			<string>Previous tab</string>
+			<string>Next tab</string>
+			<string>New tab</string>
+			<string>Close tab</string>
+		</array>
+		<key>Type</key>
+		<string>PopUpButton</string>
+		<key>Values</key>
+		<array>
+			<string>com.appsforartists.pageUp</string>
+			<string>com.appsforartists.pageDown</string>
+			<string>com.appsforartists.previousPage</string>
+			<string>com.appsforartists.nextPage</string>
+			<string>com.appsforartists.previousTab</string>
+			<string>com.appsforartists.nextTab</string>
+			<string>com.appsforartists.newTab</string>
+			<string>com.appsforartists.closeTab</string>
+		</array>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<string>com.appsforartists.nextPage</string>
+		<key>Key</key>
+		<string>action6</string>
+		<key>Title</key>
+		<string>180°</string>
+		<key>Titles</key>
+		<array>
+			<string>Page up</string>
+			<string>Page down</string>
+			<string>Previous page</string>
+			<string>Next page</string>
+			<string>Previous tab</string>
+			<string>Next tab</string>
+			<string>New tab</string>
+			<string>Close tab</string>
+		</array>
+		<key>Type</key>
+		<string>PopUpButton</string>
+		<key>Values</key>
+		<array>
+			<string>com.appsforartists.pageUp</string>
+			<string>com.appsforartists.pageDown</string>
+			<string>com.appsforartists.previousPage</string>
+			<string>com.appsforartists.nextPage</string>
+			<string>com.appsforartists.previousTab</string>
+			<string>com.appsforartists.nextTab</string>
+			<string>com.appsforartists.newTab</string>
+			<string>com.appsforartists.closeTab</string>
+		</array>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<string>com.appsforartists.nextTab</string>
+		<key>Key</key>
+		<string>action5</string>
+		<key>Title</key>
+		<string>225°</string>
+		<key>Titles</key>
+		<array>
+			<string>Page up</string>
+			<string>Page down</string>
+			<string>Previous page</string>
+			<string>Next page</string>
+			<string>Previous tab</string>
+			<string>Next tab</string>
+			<string>New tab</string>
+			<string>Close tab</string>
+		</array>
+		<key>Type</key>
+		<string>PopUpButton</string>
+		<key>Values</key>
+		<array>
+			<string>com.appsforartists.pageUp</string>
+			<string>com.appsforartists.pageDown</string>
+			<string>com.appsforartists.previousPage</string>
+			<string>com.appsforartists.nextPage</string>
+			<string>com.appsforartists.previousTab</string>
+			<string>com.appsforartists.nextTab</string>
+			<string>com.appsforartists.newTab</string>
+			<string>com.appsforartists.closeTab</string>
+		</array>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<string>com.appsforartists.pageUp</string>
+		<key>Key</key>
+		<string>action4</string>
+		<key>Title</key>
+		<string>270°</string>
+		<key>Titles</key>
+		<array>
+			<string>Page up</string>
+			<string>Page down</string>
+			<string>Previous page</string>
+			<string>Next page</string>
+			<string>Previous tab</string>
+			<string>Next tab</string>
+			<string>New tab</string>
+			<string>Close tab</string>
+		</array>
+		<key>Type</key>
+		<string>PopUpButton</string>
+		<key>Values</key>
+		<array>
+			<string>com.appsforartists.pageUp</string>
+			<string>com.appsforartists.pageDown</string>
+			<string>com.appsforartists.previousPage</string>
+			<string>com.appsforartists.nextPage</string>
+			<string>com.appsforartists.previousTab</string>
+			<string>com.appsforartists.nextTab</string>
+			<string>com.appsforartists.newTab</string>
+			<string>com.appsforartists.closeTab</string>
+		</array>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<string>com.appsforartists.previousTab</string>
+		<key>Key</key>
+		<string>action3</string>
+		<key>Title</key>
+		<string>315°</string>
+		<key>Titles</key>
+		<array>
+			<string>Page up</string>
+			<string>Page down</string>
+			<string>Previous page</string>
+			<string>Next page</string>
+			<string>Previous tab</string>
+			<string>Next tab</string>
+			<string>New tab</string>
+			<string>Close tab</string>
+		</array>
+		<key>Type</key>
+		<string>PopUpButton</string>
 		<key>Values</key>
 		<array>
 			<string>com.appsforartists.pageUp</string>
