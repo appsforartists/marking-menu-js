@@ -1,7 +1,7 @@
-/*		Chrome Marking Menu
- *  	by Brenton Simpson
- *  	bsimpson@appsforartists.com
- *		4/2/2010
+/*	Marking Menu JS
+ *  by Brenton Simpson
+ *  bsimpson@appsforartists.com
+ *	7/24/2011
  */
 
 // Extensions CSS support is hit-or-miss, so we set the important styles in JavaScript.
@@ -32,7 +32,7 @@ function drawMenu() {
 	
 	markingMenuBackground = document.createElement('img');
 	zeroMargins(markingMenuBackground);
-	markingMenuBackground.src = chrome.extension.getURL('images/background.png');
+	markingMenuBackground.src = hostAPI.getURL('images/background.png');
 	markingMenuBackground.style.position = 'absolute';
 	markingMenuBackground.style.left = markingMenuBackground.style.top = -menuDiameter / 2 + 'px';
 	markingMenu.appendChild(markingMenuBackground);
@@ -56,7 +56,7 @@ function drawMenu() {
 	highlightImage = document.createElement('img');
 	zeroMargins(highlightImage);
 	highlightImage.id = 'markingMenuHighlight';
-	highlightImage.src = chrome.extension.getURL('images/highlight.png');
+	highlightImage.src = hostAPI.getURL('images/highlight.png');
 	highlightImage.style.position = 'absolute';
 	highlightImage.style.left = highlightImage.style.top = '0px';
 	
@@ -74,7 +74,7 @@ function drawMenu() {
 		image.title = image.alt = action;
 		
 		if (actionImage.indexOf('//' == -1))
-		 	actionImage = chrome.extension.getURL(actionImage);
+		 	actionImage = hostAPI.getURL(actionImage);
 		image.src = actionImage;
 		
 		markingMenuItem.id = 'markingMenuItem' + String(i);
@@ -207,7 +207,7 @@ function onMouseUp(event){
 					document.body.dispatchEvent(customEvent);
 				}
 			}
-			chrome.extension.sendRequest({'action': action, 'framePath': document.location.href}, onMessageResponse);
+			hostAPI.sendRequest({'action': action, 'framePath': document.location.href}, onMessageResponse);
 		}
 		
 		if (markingMenu && markingMenu.parentNode)

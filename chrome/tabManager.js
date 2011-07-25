@@ -1,7 +1,7 @@
-/*		Chrome Marking Menu
- *  	by Brenton Simpson
- *  	bsimpson@appsforartists.com
- *		4/2/2010
+/*	Marking Menu JS
+ *  by Brenton Simpson
+ *  bsimpson@appsforartists.com
+ *	7/24/2011
  */
 
 function handleMessageWithTabManager(message) {
