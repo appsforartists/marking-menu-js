@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>Key</key>
+		<string>actions</string>
+		<key>Title</key>
+		<string>Actions</string>
+		<key>Titles</key>
+		<array>
+			<string>Page up</string>
+			<string>Page down</string>
+			<string>Previous page</string>
+			<string>Next page</string>
+			<string>Previous tab</string>
+			<string>Next tab</string>
+			<string>New tab</string>
+			<string>Close tab</string>
+		</array>
+		<key>Type</key>
+		<string>ListBox</string>
+		<key>Values</key>
+		<array>
+			<string>com.appsforartists.pageUp</string>
+			<string>com.appsforartists.pageDown</string>
+			<string>com.appsforartists.previousPage</string>
+			<string>com.appsforartists.nextPage</string>
+			<string>com.appsforartists.previousTab</string>
+			<string>com.appsforartists.nextTab</string>
+			<string>com.appsforartists.newTab</string>
+			<string>com.appsforartists.closeTab</string>
+		</array>
+	</dict>
+</array>
+</plist>
