@@ -60,7 +60,7 @@ function storeInLocalStorage(key, value, callback) {
 		'value':	value,
 	}
 	
-	callback = callback || function(){};
+	callback = callback || function() {};
 	
 	chrome.extension.sendRequest(message, callback);
 }

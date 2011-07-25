@@ -37,7 +37,7 @@ function handleMessageWithTabManager(message) {
 	return true;
 }
 
-function goToTab(offset){
+function goToTab(offset) {
 	chrome.tabs.getAllInWindow(null, function(tabs) {
 		chrome.tabs.getSelected(null, function(tab) {
 			chrome.tabs.update(tabs[(tab.index + offset + tabs.length) % tabs.length].id, {'selected': true});
