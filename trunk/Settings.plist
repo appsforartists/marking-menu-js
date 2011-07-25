@@ -3,6 +3,7 @@
 <plist version="1.0">
 <array>
 	<dict>
+		<!-- Might be a good idea to add firstRun = true in here, if we set default values via Extension Builder  -->
 		<key>DefaultValue</key>
 		<real>1</real>
 		<key>Key</key>
