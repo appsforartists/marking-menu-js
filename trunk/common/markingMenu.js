@@ -61,7 +61,7 @@ function drawMenu() {
 	highlightImage.style.left = highlightImage.style.top = '0px';
 	
 	var action, markingMenuItem, image;
-	for (var i = 0; i < actions.length; i++){
+	for (var i = 0; i < actions.length; i++) {
 		markingMenuItem = markingMenuItems[i] = document.createElement('div');
 		action = actions[i];
 		actionImage = actionImages[i];
@@ -134,14 +134,14 @@ function blockContextMenu(event) {
 		event.preventDefault();
 }
 	
-function showMenu(){	
+function showMenu() {	
 	document.body.appendChild(markingMenu);
 
 	addEventListener('mousemove', onMouseMove);
 	addEventListener('mouseup', onMouseUp);
 }
 
-function onMouseDown(event){
+function onMouseDown(event) {
 	//onMiddleMouseDown
 	if (event.button == triggerButton) {
 		clickTarget = event.target;
@@ -169,7 +169,7 @@ function onHoverClickMouseMove(event) {
 	}
 }
 
-function onMouseMove(event){
+function onMouseMove(event) {
 	var index = getIndexByMouseEvent(event)
 	
 	if (index == null) {
@@ -191,8 +191,8 @@ function onMouseMove(event){
 	}
 }
 
-function onMouseUp(event){
-	if (event.button == triggerButton){
+function onMouseUp(event) {
+	if (event.button == triggerButton) {
 		var index = getIndexByMouseEvent(event);
 		
 		if (index != null) {
@@ -226,20 +226,20 @@ function onMouseUp(event){
 	}
 }
 
-function getIndexByMouseEvent(event){
+function getIndexByMouseEvent(event) {
 	if (getDistance(event) >= 1/2 * distanceToItems)
 		return getIndexForAngle(getAngle(event))
 	else
 		return null;
 }
 
-function getDistance(event){
+function getDistance(event) {
 	var delta = [(event.pageX - clickLocation[0]), (clickLocation[1] - event.pageY)]
 	
 	return Math.sqrt(delta[0] * delta[0] + delta[1] * delta[1]);
 }
 
-function getAngle(event){
+function getAngle(event) {
 	//HTML's Y axis is inverted, so X' - X, but Y - Y'
 	var delta = [(event.pageX - clickLocation[0]), (clickLocation[1] - event.pageY)]
 	var angle = Math.atan(delta[0] / delta[1]) * RAD_TO_DEG;
