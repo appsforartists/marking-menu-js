@@ -5,17 +5,23 @@
 	<dict>
 		<key>DefaultValue</key>
 		<real>1</real>
+		<key>FalseValue</key>
+		<real>1</real>
 		<key>Key</key>
 		<string>triggerButton</string>
+		<key>Secure</key>
+		<false/>
 		<key>Title</key>
-		<string>Triggered by</string>
+		<string>Open with</string>
 		<key>Titles</key>
 		<array>
-			<string>Middle button</string>
-			<string>Right button</string>
+			<string>Middle click</string>
+			<string>Right click</string>
 		</array>
+		<key>TrueValue</key>
+		<real>2</real>
 		<key>Type</key>
-		<string>PopUpButton</string>
+		<string>RadioButtons</string>
 		<key>Values</key>
 		<array>
 			<real>1</real>
