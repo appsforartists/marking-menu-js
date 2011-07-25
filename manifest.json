@@ -26,7 +26,7 @@
 								"common/domActions.js"
 							],
 			"css":			[
-								"markingMenu.css"
+								"common/markingMenu.css"
 							]
 		}
 	],
