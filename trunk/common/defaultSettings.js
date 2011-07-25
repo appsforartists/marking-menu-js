@@ -40,25 +40,44 @@ var itemSize = 42;
 var rimSize = 13;
 var menuDiameter = 2 * rimSize + itemSize + 2 * distanceToItems;
 
+var firstRun = true;
+
 function initializeVariables(resetToDefaults) {
+	/*	Loads the variables from the background page.  If this is the first
+	 *	time this extension has loaded, or if resetToDefaults is true, the 
+	 *	default settings will be used.
+	 *
+	 *	Dispatches MarkingMenuEvent.VARIABLES_INITIALIZED when finished.
+	 */
+	
 	resetToDefaults = resetToDefaults || false;
-
-	for (var key in defaultSettings) {
-		if (resetToDefaults)
-			hostAPI.storeVariable(key);
-
-		hostAPI.loadVariable(key, callback);
-	}
 	
-	var settingsRemaining = Object.keys(defaultSettings).length;
-	
-	function callback() {
-		settingsRemaining--;
+	hostAPI.loadVariable('firstRun', finishInitializingVariables);
+
+	function finishInitializingVariables () {
+		resetToDefaults = firstRun || resetToDefaults;
 		
-		if (!settingsRemaining) {
-			var event = document.createEvent('Event')
-			event.initEvent(MarkingMenuEvent.VARIABLES_INITIALIZED);
-			window.dispatchEvent(event);
+		for (var key in defaultSettings) {
+			if (resetToDefaults)
+				hostAPI.storeVariable(key);
+
+			hostAPI.loadVariable(key, callback);
+		}
+		
+		firstRun = false;
+		hostAPI.storeVariable('firstRun');
+		
+		
+		var settingsRemaining = Object.keys(defaultSettings).length;
+	
+		function callback() {
+			settingsRemaining--;
+		
+			if (!settingsRemaining) {
+				var event = document.createEvent('Event')
+				event.initEvent(MarkingMenuEvent.VARIABLES_INITIALIZED);
+				window.dispatchEvent(event);
+			}
 		}
 	}
 }
