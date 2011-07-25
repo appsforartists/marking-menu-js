@@ -32,7 +32,7 @@ function drawMenu() {
 	
 	markingMenuBackground = document.createElement('img');
 	zeroMargins(markingMenuBackground);
-	markingMenuBackground.src = hostAPI.getURL('images/background.png');
+	markingMenuBackground.src = hostAPI.getURL('common/images/background.png');
 	markingMenuBackground.style.position = 'absolute';
 	markingMenuBackground.style.left = markingMenuBackground.style.top = -menuDiameter / 2 + 'px';
 	markingMenu.appendChild(markingMenuBackground);
@@ -56,7 +56,7 @@ function drawMenu() {
 	highlightImage = document.createElement('img');
 	zeroMargins(highlightImage);
 	highlightImage.id = 'markingMenuHighlight';
-	highlightImage.src = hostAPI.getURL('images/highlight.png');
+	highlightImage.src = hostAPI.getURL('common/images/highlight.png');
 	highlightImage.style.position = 'absolute';
 	highlightImage.style.left = highlightImage.style.top = '0px';
 	

@@ -4,6 +4,8 @@
  *	7/24/2011
  */
 
+var self = this;
+
 var hostAPI = {
 	'getURL':			function(path) {
 		return chrome.extension.getURL(path);
@@ -16,26 +18,28 @@ var hostAPI = {
 		}
 	
 		var setLocalVariable = function(response) {
-			window[response.key] = response.value;
+			self[response.key] = response.value;
 			
 			if (callback)
 				callback();
 		}
 	
-		sendRequest(message, setLocalVariable);
+		this.sendRequest(message, setLocalVariable);
 	},
 	
-	'storeVariable':	function(key) {
+	'storeVariable':	function(key, callback) {
 		message = {
 			'action':	'storeInLocalStorage',
 			'key':		key,
-			'value':	window[key],
+			'value':	self[key],
 		}
-	
-		sendRequest(message);
+
+		this.sendRequest(message, callback);
 	},
 	
 	'sendRequest':		function(message, callback) {
+		callback = callback || function() {};
+		
 		chrome.extension.sendRequest(message, callback);
 	}
 }

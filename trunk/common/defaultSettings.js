@@ -49,7 +49,7 @@ function initializeVariables(resetToDefaults) {
 	 *
 	 *	Dispatches MarkingMenuEvent.VARIABLES_INITIALIZED when finished.
 	 */
-	
+
 	resetToDefaults = resetToDefaults || false;
 	
 	hostAPI.loadVariable('firstRun', finishInitializingVariables);
@@ -57,27 +57,31 @@ function initializeVariables(resetToDefaults) {
 	function finishInitializingVariables () {
 		resetToDefaults = firstRun || resetToDefaults;
 		
-		for (var key in defaultSettings) {
-			if (resetToDefaults)
-				hostAPI.storeVariable(key);
-
-			hostAPI.loadVariable(key, callback);
-		}
-		
-		firstRun = false;
-		hostAPI.storeVariable('firstRun');
-		
 		
 		var settingsRemaining = Object.keys(defaultSettings).length;
 	
-		function callback() {
+		var callback = function () {
 			settingsRemaining--;
-		
+			
 			if (!settingsRemaining) {
 				var event = document.createEvent('Event')
 				event.initEvent(MarkingMenuEvent.VARIABLES_INITIALIZED);
 				window.dispatchEvent(event);
 			}
 		}
+
+
+		for (var key in defaultSettings) {
+			if (resetToDefaults) {
+				window[key] = defaultSettings[key];
+				hostAPI.storeVariable(key);
+				callback();
+			} else {
+				hostAPI.loadVariable(key, callback);
+			}
+		}
+		
+		firstRun = false;
+		hostAPI.storeVariable('firstRun');
 	}
 }
