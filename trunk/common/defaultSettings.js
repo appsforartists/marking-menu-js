@@ -14,7 +14,6 @@ const MarkingMenuEvent = {
 	'VARIABLES_INITIALIZED':	'com.appsforartists.markingMenu.variablesInitialized'
 }
 
-var settings = ['actions', 'actionImages', 'triggerButton'];
 var defaultSettings = {
 	'actions':	[
 		'com.appsforartists.pageDown',
@@ -29,8 +28,11 @@ var defaultSettings = {
 	'actionImages':		[],
 	'triggerButton':	MIDDLE_MOUSE
 }
-for (var i = 0; i < defaultSettings['actions'].length; i++) {
-	defaultSettings['actionImages'].push('images/' + defaultSettings['actions'][i] + '.png');
+
+defaultSettings['actionImages'] = defaultSettings.actions.map(imageForAction);
+
+function imageForAction(action) {
+	return 'common/images/' + action + '.png'
 }
 
 var distanceToItems = 55;
@@ -38,72 +40,25 @@ var itemSize = 42;
 var rimSize = 13;
 var menuDiameter = 2 * rimSize + itemSize + 2 * distanceToItems;
 
-function getFromLocalStorage(key, defaultValue) {
-	message = {
-		'action':			'getFromLocalStorage',
-		'key':				key,
-		'defaultValue':		defaultValue
-	}
-	
-	var setLocalVariable = function(response) {
-		this[response.key] = response.value;
-		tryToDispatchVariablesInitialized();
-	}
-	
-	chrome.extension.sendRequest(message, setLocalVariable);
-}
+function initializeVariables(resetToDefaults) {
+	resetToDefaults = resetToDefaults || false;
 
-function storeInLocalStorage(key, value, callback) {
-	message = {
-		'action':	'storeInLocalStorage',
-		'key':		key,
-		'value':	value,
+	for (var key in defaultSettings) {
+		if (resetToDefaults)
+			hostAPI.storeVariable(key);
+
+		hostAPI.loadVariable(key, callback);
 	}
 	
-	callback = callback || function() {};
+	var settingsRemaining = Object.keys(defaultSettings).length;
 	
-	chrome.extension.sendRequest(message, callback);
-}
-
-function resetDefaultSettings(event) {
-	var settingsCount = settings.length;
-	
-	var callback = function () {
-		var _settingsPending = settingsCount;
+	function callback() {
+		settingsRemaining--;
 		
-		return function() {
-			_settingsPending--;
-			
-			try {
-				if (!_settingsPending)
-					initializeForm();
-			} catch (error) {
-				//initializeForm only exists in preferences.html, so it might be undefined here.
-			}
+		if (!settingsRemaining) {
+			var event = document.createEvent('Event')
+			event.initEvent(MarkingMenuEvent.VARIABLES_INITIALIZED);
+			window.dispatchEvent(event);
 		}
-	}();
-	
-	for (var i = 0; i < settingsCount; i++) {
-		storeInLocalStorage(settings[i], defaultSettings[settings[i]], callback);
-	}
-}
-
-function initializeVariables() {
-	for (var i = 0; i < settings.length; i++) {
-		getFromLocalStorage(settings[i], defaultSettings[settings[i]])
-	}	
-}
-
-function tryToDispatchVariablesInitialized(event) {
-	var complete = true;
-	
-	for (var i = 0; i < settings.length; i++) {
-		complete = complete && this.hasOwnProperty(settings[i]);
-	}
-	
-	if (complete) {
-		var event = document.createEvent('Event')
-		event.initEvent(MarkingMenuEvent.VARIABLES_INITIALIZED);
-		window.dispatchEvent(event);
 	}
 }
