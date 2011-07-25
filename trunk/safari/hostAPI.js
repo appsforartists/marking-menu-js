@@ -17,14 +17,64 @@ var hostAPI = {
 	*/
 		
 	'loadVariable':		function(key, callback) {
-		window[key] = safari.extension.settings[key];
+		switch (key) {
+			// Don't need to initialize default settings, since Safari saves them in a plist
+			case 'firstRun':
+				window.firstRun = false;
+				break;
+
+			case 'actions':
+				var i = 0;
+				var actions = [];
+				
+				do {
+					try {
+						var nextAction = safari.extension.settings['action' + i];
+					} catch (error) {
+						//When you run out of actions, you get an error
+						break;
+					}
+					
+					actions.push(nextAction);
+				} while (i++);
+				
+				window.actions = actions;
+				//Use defaultSettings' imageForAction to keep actions and actionImages in sync.
+				window.actionImages = actions.map(imageForAction);
+				break;
+				
+			case 'actionImages':
+				if (!window.actionImages)
+					console.log("Use loadVariable('actions'); to populate actionImages on Safari");
+				
+				break;
+
+			default:
+				window[key] = safari.extension.settings[key];
+				break;
+		}
 		
 		if (callback)
 			callback();
 	},
 	
 	'storeVariable':	function(key) {
-		safari.extension.settings[key] = window[key];
+		switch (key) {
+			case 'actions':
+				var actions = window[actions];
+				
+				for (var i = 0; i < actions.length; i++)
+					safari.extension.settings['action' + i] = actions[i];
+
+				break;
+		
+			case 'actionImages':
+				break;
+				
+			default:
+				safari.extension.settings[key] = window[key];
+				break;
+		}
 	},
 	
 	
