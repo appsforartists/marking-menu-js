@@ -16,8 +16,11 @@ var hostAPI = {
 	* same API in Chrome asynchronously.
 	*/
 		
-	'loadVariable':		function(key) {
+	'loadVariable':		function(key, callback) {
 		window[key] = safari.extension.settings[key];
+		
+		if (callback)
+			callback();
 	},
 	
 	'storeVariable':	function(key) {
