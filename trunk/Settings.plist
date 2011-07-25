@@ -3,6 +3,26 @@
 <plist version="1.0">
 <array>
 	<dict>
+		<key>DefaultValue</key>
+		<real>1</real>
+		<key>Key</key>
+		<string>triggerButton</string>
+		<key>Title</key>
+		<string>Triggered by</string>
+		<key>Titles</key>
+		<array>
+			<string>Middle button</string>
+			<string>Right button</string>
+		</array>
+		<key>Type</key>
+		<string>PopUpButton</string>
+		<key>Values</key>
+		<array>
+			<real>1</real>
+			<real>2</real>
+		</array>
+	</dict>
+	<dict>
 		<key>Key</key>
 		<string>actions</string>
 		<key>Title</key>
