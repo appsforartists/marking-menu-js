@@ -207,7 +207,7 @@ function onMouseUp(event) {
 					document.body.dispatchEvent(customEvent);
 				}
 			}
-			hostAPI.sendRequest({'action': action, 'framePath': document.location.href}, onMessageResponse);
+			hostAPI.sendRequest({'action': action}, onMessageResponse);
 		}
 		
 		if (markingMenu && markingMenu.parentNode)

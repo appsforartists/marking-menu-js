@@ -31,10 +31,6 @@ var defaultSettings = {
 
 defaultSettings['actionImages'] = defaultSettings.actions.map(imageForAction);
 
-function imageForAction(action) {
-	return 'common/images/' + action + '.png'
-}
-
 var distanceToItems = 55;
 var itemSize = 42;
 var rimSize = 13;
@@ -52,7 +48,7 @@ function initializeVariables(resetToDefaults) {
 
 	resetToDefaults = resetToDefaults || false;
 	
-	hostAPI.loadVariable('firstRun', finishInitializingVariables);
+	loadSetting('firstRun', finishInitializingVariables);
 
 	function finishInitializingVariables () {
 		resetToDefaults = firstRun || resetToDefaults;
@@ -74,14 +70,40 @@ function initializeVariables(resetToDefaults) {
 		for (var key in defaultSettings) {
 			if (resetToDefaults) {
 				window[key] = defaultSettings[key];
-				hostAPI.storeVariable(key);
+				storeSetting(key);
 				callback();
 			} else {
-				hostAPI.loadVariable(key, callback);
+				loadSetting(key, callback);
 			}
 		}
 		
 		firstRun = false;
-		hostAPI.storeVariable('firstRun');
+		storeSetting('firstRun');
 	}
+}
+
+function loadSetting(key, callback) {
+	message = {
+		'action':	'settings.get',
+		'key':		key,
+	}
+
+	var setLocalVariable = function(response) {
+		window[response.key] = response.value;
+		
+		if (callback)
+			callback();
+	}
+
+	hostAPI.sendRequest(message, setLocalVariable);
+}
+
+function storeSetting(key, callback) {
+	message = {
+		'action':	'settings.set',
+		'key':		key,
+		'value':	window[key],
+	}
+
+	hostAPI.sendRequest(message, callback);
 }

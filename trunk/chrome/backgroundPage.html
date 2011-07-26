@@ -16,17 +16,11 @@
 				function(message, sender, sendResponse) {
 					if (message.action && sender.tab) {
 						switch (message.action) {
-							case 'getFromLocalStorage':
+							case 'settings.get':
 								var value;
 
 								if (localStorage.hasOwnProperty(message.key))
 									value = JSON.parse(localStorage[message.key]);
-								
-								if (!value && message.defaultValue) {									
-									localStorage[message.key] = JSON.stringify(message.defaultValue);
-									value = message.defaultValue;
-								}
-								
 								
 								sendResponse({
 									'key':		message.key,
@@ -34,7 +28,7 @@
 								});
 								break;
 
-							case 'storeInLocalStorage':
+							case 'settings.set':
 								localStorage[message.key] = JSON.stringify(message.value);
 								sendResponse();
 								break;
