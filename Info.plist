@@ -28,6 +28,7 @@
 			<key>Start</key>
 			<array>
 				<string>safari/hostAPI.js</string>
+				<string>common/imageForAction.js</string>
 				<string>common/defaultSettings.js</string>
 				<string>common/markingMenu.js</string>
 				<string>common/domActions.js</string>

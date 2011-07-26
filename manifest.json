@@ -21,6 +21,7 @@
 							],
 			"js":			[
 								"chrome/hostAPI.js", 
+								"common/imageForAction.js", 
 								"common/defaultSettings.js", 
 								"common/markingMenu.js", 
 								"common/domActions.js"
