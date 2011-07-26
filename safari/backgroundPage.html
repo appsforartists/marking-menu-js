@@ -1,88 +1,104 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src = 'tabManager.js' type = 'text/javascript'></script>
-		<script src = 'imageForAction.js' type = 'text/javascript'></script>
 		<script type = 'text/javascript'>
 			/*	Marking Menu JS
 			 *	by Brenton Simpson
 			 *	bsimpson@appsforartists.com
 			 *	7/24/2011
 			 */
-						
-			var settings = {
-				'_cache': {},
-				
-				'get': function(key) {
-					if (_cache.hasOwnProperty(key))
-						return _cache[key];
-					
-					switch (key) {
-						case 'firstRun':
-							// There are defaults in Settings.plist, so they never need to be reloaded from defaultSettings.js
-							return storeInCache(false);
+			
+			var requiredScriptList = [
+				'safari/tabManager.js',
+				'safari/messageAPI.js',
+				'common/imageForAction.js'
+			];
+			
+			for (var i = 0; i < requiredScriptList.length; i++) {
+				var script = document.createElement('script');
+				script.setAttribute('src', safari.extension.baseURI + requiredScriptList[i]);
+				script.setAttribute('type', 'text/javascript');
+				document.write(script.outerHTML);
+			}					
 
-						case 'actions':
-							var actions = [];
+			var settings = function() {
+				var _cache = {};
 				
-							for (var i = 0, keepGoing = true; keepGoing; i++) {
-								try {
-									var nextAction = safari.extension.settings['action' + i];
-									actions.push(nextAction);
-								} catch (error) {
-									//When you run out of actions, you get an error
-									keepGoing = false;
+				return {
+					'get': function(key) {
+						if (_cache.hasOwnProperty(key))
+							return _cache[key];
+					
+						switch (key) {
+							case 'firstRun':
+								// There are defaults in Settings.plist, so they never need to be reloaded from defaultSettings.js
+								return storeInCache(false);
+
+							case 'actions':
+								var actions = [];
+				
+								for (var i = 0; true; i++) {
+									try {
+										var nextAction = safari.extension.settings['action' + i];
+										actions.push(nextAction);
+									} catch (error) {
+										break;
+									}
 								}
-							}
 							
-							return storeInCache(actions);
+								return storeInCache(actions);
 
-						case 'actionImages':
-							var actionImages = settings.get('actions').map(imageForAction);
-							return storeInCache(actionImages);
+							case 'actionImages':
+								var actionImages = get('actions').map(imageForAction);
+								return storeInCache(actionImages);
 
-						default:
-							return storeInCache(safari.extension.settings[key]);
-					}
+							default:
+								return storeInCache(safari.extension.settings[key]);
+						}
 					
-					function storeInCache(value) {
-						_cache[key] = value;
+						function storeInCache(value) {
+							_cache[key] = value;
 						
-						return value;
-					}
-				},
+							return value;
+						}
+					},
 						
-				'set': function(key, value) {
-					switch (key) {
-						case 'actions':
-							for (var i = 0; i < value.length; i++)
-								safari.extension.settings['action' + i] = value[i];
+					'set': function(key, value) {
+						switch (key) {
+							case 'actions':
+								for (var i = 0; i < value.length; i++)
+									safari.extension.settings['action' + i] = value[i];
 
-							break;
+								break;
 		
-						case 'actionImages':
-							break;
+							case 'actionImages':
+								break;
 
-						default:
-							safari.extension.settings[key] = value;
-							break;
-					}
+							default:
+								safari.extension.settings[key] = value;
+								break;
+						}
 					
-					_cache[key] = value;
-				},
+						_cache[key] = value;
+					},
 				
-				'clearCache': function() {
-					_cache = {};
+					'clearCache': function() {
+						_cache = {};
+					}
 				}
-			}
+			}();
+			
+			console.log(settings);
 			
 			function onMessage(event) {
 				/*	If this message is a response to an earlier request, call the appropriate
 				 *	callback with the arguments sent back from the background page.
 				 */
 	
+				console.log(event);
+	
 				var action = event.name;
-				var message = event.data;
+				var message = event.message;
 				
 				switch (action) {
 					case 'settings.get':
@@ -110,10 +126,10 @@
 			function sendResponse(originalAction, arguments) {
 				arguments = arguments || [];
 				
-				safari.self.tab.dispatchMessage('response:' + originalAction, arguments);
+				safari.application.activeBrowserWindow.activeTab.page.dispatchMessage(MessageAPI.RESPONSE_PREFIX + originalAction, arguments);
 			}
 			
-			safari.self.addEventListener('message', onMessage);
+			safari.application.addEventListener('message', onMessage);
 		</script>
 	</head>
 </html>

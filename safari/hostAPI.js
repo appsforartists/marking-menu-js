@@ -19,6 +19,8 @@ var hostAPI = {
 			'callback': callback
 		});
 		
+		console.log('sending request: ' + action, message);
+		
 		safari.self.tab.dispatchMessage(action, message);
 	}
 }
@@ -28,10 +30,12 @@ function onMessage(event) {
 	 *	callback with the arguments sent back from the background page.
 	 */
 	
-	var action = message.name;
+	console.log(event);
 	
-	if (action.substr(0, 9) == 'response:') {
-		action = substr(9);
+	var action = event.name;
+	
+	if (action.substr(0, MessageAPI.RESPONSE_PREFIX.length) == MessageAPI.RESPONSE_PREFIX) {
+		action = action.substr(MessageAPI.RESPONSE_PREFIX.length);
 		
 		for (var i = 0; i < _pendingResponses.length; i++) {
 			if (_pendingResponses[i].action == action) {
