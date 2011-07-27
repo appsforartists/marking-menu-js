@@ -19,8 +19,6 @@ initializeVariables();
 
 var markingMenu, markingMenuBackground, markingMenuLabel, markingMenuItems, highlightImage;
 function drawMenu() {
-	console.log('drawMenu');
-	
 	if (markingMenu && markingMenu.parentNode)
 		markingMenu.parentNode.removeChild(markingMenu);
 	

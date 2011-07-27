@@ -37,19 +37,13 @@
 							case 'actions':
 								var actions = [];
 				
-								for (var i = 0; true; i++) {
-									try {
-										var nextAction = safari.extension.settings['action' + i];
-										actions.push(nextAction);
-									} catch (error) {
-										break;
-									}
-								}
+								for (var i = 0; safari.extension.settings.hasOwnProperty('action' + i); i++)
+									actions.push(safari.extension.settings['action' + i]);
 							
 								return storeInCache(actions);
 
 							case 'actionImages':
-								var actionImages = get('actions').map(imageForAction);
+								var actionImages = this.get('actions').map(imageForAction);
 								return storeInCache(actionImages);
 
 							default:
@@ -87,16 +81,12 @@
 					}
 				}
 			}();
-			
-			console.log(settings);
-			
+						
 			function onMessage(event) {
 				/*	If this message is a response to an earlier request, call the appropriate
 				 *	callback with the arguments sent back from the background page.
 				 */
-	
-				console.log(event);
-	
+				
 				var action = event.name;
 				var message = event.message;
 				
@@ -118,9 +108,16 @@
 						break;
 						
 					default:
-						sendResponse(action);
+						//send back a boolean if we've handled the event
+						sendResponse(action, [
+							handleMessageWithTabManager(message)
+						]);
 						break;
 				}
+			}
+			
+			function onSettingChange(event) {
+				settings.clearCache();
 			}
 			
 			function sendResponse(originalAction, arguments) {
@@ -130,6 +127,7 @@
 			}
 			
 			safari.application.addEventListener('message', onMessage);
+			safari.extension.settings.addEventListener("change", onSettingChange);
 		</script>
 	</head>
 </html>
