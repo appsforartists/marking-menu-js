@@ -51,7 +51,7 @@ function initializeVariables(resetToDefaults) {
 	loadSetting('firstRun', finishInitializingVariables);
 
 	function finishInitializingVariables () {
-		resetToDefaults = firstRun || resetToDefaults;
+		resetToDefaults = true || firstRun || resetToDefaults;
 		
 		var settingsRemaining = Object.keys(defaultSettings).length;
 	
