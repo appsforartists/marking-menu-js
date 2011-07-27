@@ -50,22 +50,15 @@ function initializeVariables(resetToDefaults) {
 	
 	loadSetting('firstRun', finishInitializingVariables);
 
-	console.log('initializeVariables');
-
 	function finishInitializingVariables () {
-		resetToDefaults = true || firstRun || resetToDefaults;
-		
-		console.log('finishInitializingVariables');
+		resetToDefaults = firstRun || resetToDefaults;
 		
 		var settingsRemaining = Object.keys(defaultSettings).length;
 	
 		var callback = function () {
 			settingsRemaining--;
 			
-			console.log(settingsRemaining);
-			
 			if (!settingsRemaining) {
-				console.log('dispatching Event');
 				var event = document.createEvent('Event')
 				event.initEvent(MarkingMenuEvent.VARIABLES_INITIALIZED);
 				window.dispatchEvent(event);
