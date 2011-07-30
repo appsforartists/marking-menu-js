@@ -36,5 +36,7 @@ function getCurrentTabIndex() {
 }
 
 function goToTab(offset) {
-	safari.application.activeBrowserWindow.tabs[offset + getCurrentTabIndex()].activate();
+	var tabs = safari.application.activeBrowserWindow.tabs;
+	
+	tabs[(offset + getCurrentTabIndex() + tabs.length) % tabs.length].activate();
 }
