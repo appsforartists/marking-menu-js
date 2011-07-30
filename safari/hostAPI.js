@@ -12,12 +12,6 @@ var hostAPI = {
 	},
 	
 	'sendRequest':		function(message, callback) {
-		if (_pendingResponses.length > 10) {
-			console.log('_pendingResponses is out of control!');
-			console.log(_pendingResponses);
-			return;
-		}
-		
 		var action = message.action;
 		
 		_pendingResponses.push({
