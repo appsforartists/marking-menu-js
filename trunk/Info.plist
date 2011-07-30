@@ -41,7 +41,7 @@
 		</array>
 	</dict>
 	<key>Description</key>
-	<string>Enables you to navigate with pen flicks/mouse gestures.</string>
+	<string>Enables you to navigate with pen flicks/mouse gestures.  Changes take effect after a page reload.</string>
 	<key>ExtensionInfoDictionaryVersion</key>
 	<string>1.0</string>
 	<key>Permissions</key>
@@ -54,6 +54,8 @@
 			<string>All</string>
 		</dict>
 	</dict>
+	<key>Update Manifest URL</key>
+	<string>http://updates.appsforartists.com/safari_extensions.plist</string>
 	<key>Website</key>
 	<string>http://appsforartists.com/#marking_menu</string>
 </dict>
