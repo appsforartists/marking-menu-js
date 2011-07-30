@@ -142,7 +142,6 @@ function showMenu() {
 }
 
 function onMouseDown(event) {
-	//onMiddleMouseDown
 	if (event.button == triggerButton) {
 		clickTarget = event.target;
 		clickLocation = [event.pageX, event.pageY];

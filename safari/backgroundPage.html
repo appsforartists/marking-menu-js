@@ -83,10 +83,6 @@
 			}();
 						
 			function onMessage(event) {
-				/*	If this message is a response to an earlier request, call the appropriate
-				 *	callback with the arguments sent back from the background page.
-				 */
-				
 				var action = event.name;
 				var message = event.message;
 				
