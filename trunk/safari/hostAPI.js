@@ -12,6 +12,12 @@ var hostAPI = {
 	},
 	
 	'sendRequest':		function(message, callback) {
+		if (_pendingResponses.length > 10) {
+			console.log('_pendingResponses is out of control!');
+			console.log(_pendingResponses);
+			return;
+		}
+		
 		var action = message.action;
 		
 		_pendingResponses.push({
@@ -32,11 +38,15 @@ function onMessage(event) {
 	
 	if (action.substr(0, MessageAPI.RESPONSE_PREFIX.length) == MessageAPI.RESPONSE_PREFIX) {
 		action = action.substr(MessageAPI.RESPONSE_PREFIX.length);
-		
+				
 		for (var i = 0; i < _pendingResponses.length; i++) {
 			if (_pendingResponses[i].action == action) {
-				_pendingResponses[i].callback.apply(this, event.message);
-				_pendingResponses = _pendingResponses.splice(i, 1);
+				// This presumes that the messages come back in the order they were sent; there's no other guarantee that only one message with this action will be pending.
+				
+				var currentResponse = _pendingResponses.splice(i, 1).pop();
+				
+				if (currentResponse.callback)
+					currentResponse.callback.apply(this, event.message);
 				
 				return;
 			}
