@@ -86,10 +86,16 @@
 				var action = event.name;
 				var message = event.message;
 				
+				console.log(message);
+
+				var signature = message.signature;
+				delete message.signature;
+				
+				
 				switch (action) {
 					case 'settings.get':
 						sendResponse(
-							action, [
+							signature, [
 								{
 									'key': message.key,
 									'value': settings.get(message.key)
@@ -100,12 +106,12 @@
 
 					case 'settings.set':
 						settings.set(message.key, message.value);
-						sendResponse(action);
+						sendResponse(signature);
 						break;
 						
 					default:
 						//send back a boolean if we've handled the event
-						sendResponse(action, [
+						sendResponse(signature, [
 							handleMessageWithTabManager(message)
 						]);
 						break;
@@ -116,10 +122,10 @@
 				settings.clearCache();
 			}
 			
-			function sendResponse(originalAction, arguments) {
+			function sendResponse(signature, arguments) {
 				arguments = arguments || [];
 				
-				safari.application.activeBrowserWindow.activeTab.page.dispatchMessage(MessageAPI.RESPONSE_PREFIX + originalAction, arguments);
+				safari.application.activeBrowserWindow.activeTab.page.dispatchMessage(MessageAPI.RESPONSE_PREFIX + signature, arguments);
 			}
 			
 			safari.application.addEventListener('message', onMessage);
