@@ -197,13 +197,12 @@ function onMouseUp(event) {
 		if (index != null) {
 			var action = actions[index];
 			
-			var onMessageResponse = function(handled) {
-				if (!handled) {
+			var onMessageResponse = function(handledByBackgroundPage) {
+				if (!handledByBackgroundPage) {
+					// send the event to window, so other content scripts (like domActions) can react
 					var customEvent = document.createEvent('Event');
-					customEvent.initEvent(action);
+					customEvent.initEvent(action, true);
 					window.dispatchEvent(customEvent);
-					document.dispatchEvent(customEvent);
-					document.body.dispatchEvent(customEvent);
 				}
 			}
 			hostAPI.sendRequest({'action': action}, onMessageResponse);
