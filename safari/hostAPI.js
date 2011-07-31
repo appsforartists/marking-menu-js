@@ -18,6 +18,8 @@ var hostAPI = {
 		for (var key in message) {
 			signature += ';' + key + '=' + message[key];
 		}
+		
+		console.log('sending ' + signature);
 
 		message['signature'] = signature;
 		
@@ -37,6 +39,8 @@ function onMessage(event) {
 	/*	If this message is a response to an earlier request, call the appropriate
 	 *	callback with the arguments sent back from the background page.
 	 */
+
+	console.log('received ' + action);
 		
 	if (action.substr(0, MessageAPI.RESPONSE_PREFIX.length) == MessageAPI.RESPONSE_PREFIX) {
 		var signature = action.substr(MessageAPI.RESPONSE_PREFIX.length);
