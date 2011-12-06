@@ -66,7 +66,7 @@ function drawMenu() {
 		action = actions[i];
 		actionImage = actionImages[i];
 		
-		zeroMargins(markingMenuItem)
+		zeroMargins(markingMenuItem);
 		
 		image  = document.createElement('img');
 		zeroMargins(image);
@@ -169,7 +169,7 @@ function onHoverClickMouseMove(event) {
 }
 
 function onMouseMove(event) {
-	var index = getIndexByMouseEvent(event)
+	var index = getIndexByMouseEvent(event);
 	
 	if (index == null) {
 		markingMenuLabel.innerHTML = ''; 
@@ -216,7 +216,7 @@ function onMouseUp(event) {
 		if (highlightImage && highlightImage.parentNode)
 			highlightImage.parentNode.removeChild(highlightImage);
 
-		//clickTarget and clickLocation are left in memory in case a domAction needs them
+		// clickTarget and clickLocation are left in memory in case a DOM action needs them
 
 		removeEventListener('mousemove', onMouseMove);
 		removeEventListener('mousemove', onHoverClickMouseMove);
@@ -226,20 +226,20 @@ function onMouseUp(event) {
 
 function getIndexByMouseEvent(event) {
 	if (getDistance(event) >= 1/2 * distanceToItems)
-		return getIndexForAngle(getAngle(event))
+		return getIndexForAngle(getAngle(event));
 	else
 		return null;
 }
 
 function getDistance(event) {
-	var delta = [(event.pageX - clickLocation[0]), (clickLocation[1] - event.pageY)]
+	var delta = [(event.pageX - clickLocation[0]), (clickLocation[1] - event.pageY)];
 	
 	return Math.sqrt(delta[0] * delta[0] + delta[1] * delta[1]);
 }
 
 function getAngle(event) {
-	//HTML's Y axis is inverted, so X' - X, but Y - Y'
-	var delta = [(event.pageX - clickLocation[0]), (clickLocation[1] - event.pageY)]
+	// HTML's Y axis is inverted, so X' - X, but Y - Y'
+	var delta = [(event.pageX - clickLocation[0]), (clickLocation[1] - event.pageY)];
 	var angle = Math.atan(delta[0] / delta[1]) * RAD_TO_DEG;
 	
 	if (delta[1] < 0) 
