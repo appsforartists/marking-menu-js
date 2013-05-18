@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!--
+            Marking Menu JS
+			by Brenton Simpson
+			bsimpson@appsforartists.com
+			7/24/2011
+		-->
+		<title>
+			Marking Menu Preferences
+		</title>
+		<style type="text/css" media="screen">
+			* {
+				background-color:	#FFFFFF;
+				color:				#34699D;
+				font-family:		"Myriad Pro", "Century Gothic";
+				font-weight:		100;
+				margin-top:			0px;
+				margin-bottom:		0px;
+				line-height:		1.5em;
+			}
+			
+			body {
+				width:				800px;
+				margin:				auto;
+			}
+			
+			header {
+				text-align:			center;
+			}
+			
+			h1 {
+				padding-top:		15px;
+			}
+			
+			h1, h2, h3 {
+				margin:				0px;
+				line-height:		1.25em;
+			}
+			
+			p {
+				width:				760px;
+				margin:				auto;
+				font-size:			12pt; 
+				padding:			.5em;
+			}
+			
+			#refresh_reminder {
+				width:				700px;
+			}
+			
+			.section_title {
+				text-align:			left;
+			}
+						
+			form {
+				padding-top:		10px;
+				position:			relative;
+			}	
+			
+			ol {
+				margin:				0px;
+				padding-left:		15px;
+			}
+			
+			li {
+				display:			block;
+				margin:				0px;
+				padding:			5px;
+			}
+			
+			li.inline {
+				display:			inline-block;
+			}
+			
+			label {
+				display:			block;
+				margin-left:		15px;
+			}
+			
+			a {
+				text-decoration:	none;
+			}
+			
+			a:hover {
+				text-decoration:	underline;
+			}
+			
+            #menu_items > .section_instructions {
+                margin-bottom:      1em;
+            }
+            
+			#menu_item_inputs {
+				position:			relative;
+				height:				440px;
+				width:				558px;
+				margin:				auto;
+			}
+			
+			#menu_background {
+				position:			relative;
+				display:			block;
+				width:				178px;
+				height:				178px;
+				margin:				auto;
+				padding:			100px;
+			}
+			
+			.item_input {
+				position: 			absolute;
+				width:				175px;	/* Change this to 250 at some point */
+				height:				44px;
+				margin-left:		189px;
+				margin-top:			189px;
+			}
+			
+			.item_input > input {
+				display:			block;
+				width:				100%;
+			}
+            
+            #menu_item_input_controls {
+                text-align:         center;
+                padding:            15px;
+            }
+		</style>
+		<script src = 'hostAPI.js' type = 'text/javascript'></script>
+		<script src = '/common/imageForAction.js' type = 'text/javascript'></script>
+		<script src = '/common/defaultSettings.js' type = 'text/javascript'></script>
+		<script src = '/common/preferences.js'  type = 'text/javascript'></script>
+	</head>
+	<body>
+		<header>
+			<h1>
+				Marking Menu for Google Chrome&trade;
+			</h1>
+			<h2>
+				by <a href='http://appsforartists.com/'>Brenton Simpson</a>
+			</h2>
+			<h3>
+				Last updated 7/24/2011
+			</h3>
+		</header>
+		<p id = 'refresh_reminder'>
+			These changes will take effect for all new tabs created.  If you already have a tab open, just reload it to apply them there as well.  Remember, Google doesn't allow extensions on secure pages, so you can't test the Menu on this page.
+		</p>
+		<form id='preferences'>
+			<header>
+                <h3 class='section_title'>
+    				Preferences
+    			</h3>
+            </header>
+    		<ol>
+    			<li class = 'inline'>
+        			<a id = 'reset_defaults'>
+        				Reset Defaults
+        			</a>
+    			</li>
+    		</ol>
+			<ol>
+				<li>
+					Activated by:
+					<label>
+						<input type='radio' name='triggerButton' value='1' />
+						Middle mouse button
+					</label>
+					<label>
+						<input type='radio' name='triggerButton' value='2' />
+						Right mouse button
+					</label>
+				</li>
+			</ol>
+		</form>  
+		<form id = 'menu_items'>
+			<h3 class='section_title'>
+				Menu items
+			</h3>
+			<p class = 'section_instructions'>
+				If you'd like to customize the actions and icons that appear in Marking Menu, this is where you do it.  The following pairs of text boxes each correspond to an icon in the menu.  The top box is the event that is dispatched when that action is selected, while the bottom is the URL to the icon you'd like shown.
+			</p>
+			<div id = 'menu_item_inputs'>
+				<img id = 'menu_background' src = '/common/images/background.png' />
+				<!-- inputs appended by JavaScript -->
+        		<ol id = 'menu_item_input_controls'>
+        			<li class = 'inline'>
+        				<a id = 'save_changes'>
+        					Save Changes
+        				</a>
+        			</li>
+        		</ol>
+			</div>
+			<p class = 'section_instructions'>
+				<!--a href = 'customActionInstructions.html'-->
+				<a href = 'mailto:bsimpson@appsforartists.com'>
+					For more information on adding a custom event, click here.
+				</a>
+			</p>
+		</form>  
+	</body>
+</html>
