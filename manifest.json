@@ -1,7 +1,7 @@
 {
     "manifest_version":         2,
     "name":                     "Marking Menu for Google Chrome™",
-    "version":                  "0.5",
+    "version":                  "0.6",
     "description":              "Allows you to navigate with pen flicks/mouse gestures.  To use, hold the middle-mouse button, select an action, and release.",
     
     "icons":                    {
