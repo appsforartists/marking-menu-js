@@ -1,5 +1,3 @@
-alert("I don't think reset defaults works yet.  Try getting rid of localStorage and using hostAPI.");
-
 var preferences;
 
 function setValueInFormByStorage(inputName) {
@@ -80,8 +78,8 @@ function updateStorageByMenuItemInputs(event) {
 		actionImages[i] = imageInputs[i].value;
 	}
 
-	storeInLocalStorage('actions', actions);
-	storeInLocalStorage('actionImages', actionImages);
+	storeSetting('actions');
+	storeSetting('actionImages');
 }
 
 function updateMenuItemInputsByStorage(event) {
@@ -111,10 +109,26 @@ function initializeForm(event) {
 		setValueInFormByStorage(inputName);
 	}
 }
+
 window.addEventListener(MarkingMenuEvent.VARIABLES_INITIALIZED, addListenersToForm);
 window.addEventListener(MarkingMenuEvent.VARIABLES_INITIALIZED, initializeForm);
-addEventListener('DOMContentLoaded', initializeVariables);
+addEventListener('DOMContentLoaded', onLoad);
+
+function onLoad(event) {
+    initializeVariables();
+    
+    document.getElementById('reset_defaults').addEventListener('click', onResetDefaultsClick);
+    document.getElementById('save_changes').addEventListener('click', onSaveChangesClick);
+}
 
 function onInputClick(event) {
 	setValueInStorageByInput(event.target.name);
+}
+
+function onResetDefaultsClick(event) {
+    initializeVariables(true);
+}
+
+function onSaveChangesClick(event) {
+    updateStorageByMenuItemInputs(true);
 }

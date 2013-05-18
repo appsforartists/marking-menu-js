@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script type = 'text/javascript'>
-			/*	Marking Menu JS
-			 *  by Brenton Simpson
-			 *  bsimpson@appsforartists.com
-			 *	7/24/2011
-			 */
-		</script>
+		<!--
+            Marking Menu JS
+			by Brenton Simpson
+			bsimpson@appsforartists.com
+			7/24/2011
+		-->
 		<title>
 			Marking Menu Preferences
 		</title>
@@ -88,6 +87,10 @@
 				text-decoration:	underline;
 			}
 			
+            #menu_items > .section_instructions {
+                margin-bottom:      1em;
+            }
+            
 			#menu_item_inputs {
 				position:			relative;
 				height:				440px;
@@ -116,6 +119,11 @@
 				display:			block;
 				width:				100%;
 			}
+            
+            #menu_item_input_controls {
+                text-align:         center;
+                padding:            15px;
+            }
 		</style>
 		<script src = 'hostAPI.js' type = 'text/javascript'></script>
 		<script src = '/common/imageForAction.js' type = 'text/javascript'></script>
@@ -138,21 +146,18 @@
 			These changes will take effect for all new tabs created.  If you already have a tab open, just reload it to apply them there as well.  Remember, Google doesn't allow extensions on secure pages, so you can't test the Menu on this page.
 		</p>
 		<form id='preferences'>
-			<h3 class='section_title'>
-				Preferences
-			</h3>
-			<ol>
-				<li class = 'inline'>
-					<a href = 'javascript:initializeVariables(true);'>
-						Reset Defaults
-					</a>
-				</li>
-				<li class = 'inline'>
-					<a href = 'javascript:updateStorageByMenuItemInputs();'>
-						Save Changes
-					</a>
-				</li>
-			</ol>
+			<header>
+                <h3 class='section_title'>
+    				Preferences
+    			</h3>
+            </header>
+    		<ol>
+    			<li class = 'inline'>
+        			<a id = 'reset_defaults'>
+        				Reset Defaults
+        			</a>
+    			</li>
+    		</ol>
 			<ol>
 				<li>
 					Activated by:
@@ -177,6 +182,13 @@
 			<div id = 'menu_item_inputs'>
 				<img id = 'menu_background' src = '/common/images/background.png' />
 				<!-- inputs appended by JavaScript -->
+        		<ol id = 'menu_item_input_controls'>
+        			<li class = 'inline'>
+        				<a id = 'save_changes'>
+        					Save Changes
+        				</a>
+        			</li>
+        		</ol>
 			</div>
 			<p class = 'section_instructions'>
 				<!--a href = 'customActionInstructions.html'-->
