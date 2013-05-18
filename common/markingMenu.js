@@ -34,7 +34,6 @@ function drawMenu() {
 	zeroMargins(markingMenuBackground);
 	markingMenuBackground.src = hostAPI.getURL('common/images/background.png');
 	markingMenuBackground.style.position = 'absolute';
-	markingMenuBackground.style.width = markingMenuBackground.style.height = menuDiameter + 'px';
 	markingMenuBackground.style.left = markingMenuBackground.style.top = -menuDiameter / 2 + 'px';
 	markingMenu.appendChild(markingMenuBackground);
 
@@ -59,7 +58,6 @@ function drawMenu() {
 	highlightImage.id = 'markingMenuHighlight';
 	highlightImage.src = hostAPI.getURL('common/images/highlight.png');
 	highlightImage.style.position = 'absolute';
-	highlightImage.style.width = highlightImage.style.height = itemSize + 'px';
 	highlightImage.style.left = highlightImage.style.top = '0px';
 	
 	var action, markingMenuItem, image;

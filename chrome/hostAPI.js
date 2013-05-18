@@ -12,6 +12,6 @@ var hostAPI = {
 	'sendRequest':		function(message, callback) {
 		callback = callback || function() {};
 		
-		chrome.extension.sendMessage(message, callback);
+		chrome.extension.sendRequest(message, callback);
 	}
 }
