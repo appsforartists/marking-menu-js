@@ -26,7 +26,7 @@ var defaultSettings = {
 		'com.appsforartists.closeTab'
 	],
 	'actionImages':		[],
-	'triggerButton':	MIDDLE_MOUSE
+	'triggerButton':	RIGHT_MOUSE
 }
 
 defaultSettings['actionImages'] = defaultSettings.actions.map(imageForAction);
@@ -69,8 +69,7 @@ function initializeVariables(resetToDefaults) {
 		for (var key in defaultSettings) {
 			if (resetToDefaults) {
 				window[key] = defaultSettings[key];
-				storeSetting(key);
-				callback();
+				storeSetting(key, callback);
 			} else {
 				loadSetting(key, callback);
 			}
@@ -88,7 +87,8 @@ function loadSetting(key, callback) {
 	}
 
 	var setLocalVariable = function(response) {
-		window[response.key] = response.value;
+        if (response.value != undefined)
+            window[response.key] = response.value;
 		
 		if (callback)
 			callback();
