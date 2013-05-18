@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Author</key>
+	<string>Brenton Simpson</string>
+	<key>Builder Version</key>
+	<string>7534.51.22</string>
+	<key>CFBundleDisplayName</key>
+	<string>Marking Menu for Safari</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.appsforartists.markingMenu.safari</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>Chrome</key>
+	<dict>
+		<key>Global Page</key>
+		<string>safari/backgroundPage.html</string>
+	</dict>
+	<key>Content</key>
+	<dict>
+		<key>Scripts</key>
+		<dict>
+			<key>Start</key>
+			<array>
+				<string>safari/messageAPI.js</string>
+				<string>safari/hostAPI.js</string>
+				<string>common/imageForAction.js</string>
+				<string>common/defaultSettings.js</string>
+				<string>common/markingMenu.js</string>
+				<string>common/domActions.js</string>
+			</array>
+		</dict>
+		<key>Stylesheets</key>
+		<array>
+			<string>common/markingMenu.css</string>
+		</array>
+	</dict>
+	<key>Description</key>
+	<string>Enables you to navigate with pen flicks/mouse gestures.  Changes take effect after a page reload.</string>
+	<key>ExtensionInfoDictionaryVersion</key>
+	<string>1.0</string>
+	<key>Permissions</key>
+	<dict>
+		<key>Website Access</key>
+		<dict>
+			<key>Include Secure Pages</key>
+			<true/>
+			<key>Level</key>
+			<string>All</string>
+		</dict>
+	</dict>
+	<key>Update Manifest URL</key>
+	<string>http://updates.appsforartists.com/safari_extensions.plist</string>
+	<key>Website</key>
+	<string>http://appsforartists.com/#marking_menu</string>
+</dict>
+</plist>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type = 'text/javascript'>
+			/*	Marking Menu JS
+			 *	by Brenton Simpson
+			 *	bsimpson@appsforartists.com
+			 *	7/24/2011
+			 */
+			
+			var requiredScriptList = [
+				'safari/tabManager.js',
+				'safari/messageAPI.js',
+				'common/imageForAction.js'
+			];
+			
+			for (var i = 0; i < requiredScriptList.length; i++) {
+				var script = document.createElement('script');
+				script.setAttribute('src', safari.extension.baseURI + requiredScriptList[i]);
+				script.setAttribute('type', 'text/javascript');
+				document.write(script.outerHTML);
+			}					
+
+			var settings = function() {
+				var _cache = {};
+				
+				return {
+					'get': function(key) {
+						if (_cache.hasOwnProperty(key))
+							return _cache[key];
+					
+						switch (key) {
+							case 'firstRun':
+								// There are defaults in Settings.plist, so they never need to be reloaded from defaultSettings.js
+								return storeInCache(false);
+
+							case 'actions':
+								var actions = [];
+				
+								for (var i = 0; safari.extension.settings.hasOwnProperty('action' + i); i++)
+									actions.push(safari.extension.settings['action' + i]);
+							
+								return storeInCache(actions);
+
+							case 'actionImages':
+								var actionImages = this.get('actions').map(imageForAction);
+								return storeInCache(actionImages);
+
+							default:
+								return storeInCache(safari.extension.settings[key]);
+						}
+					
+						function storeInCache(value) {
+							_cache[key] = value;
+						
+							return value;
+						}
+					},
+						
+					'set': function(key, value) {
+						switch (key) {
+							case 'actions':
+								for (var i = 0; i < value.length; i++)
+									safari.extension.settings['action' + i] = value[i];
+
+								break;
+		
+							case 'actionImages':
+								break;
+
+							default:
+								safari.extension.settings[key] = value;
+								break;
+						}
+					
+						_cache[key] = value;
+					},
+				
+					'clearCache': function() {
+						_cache = {};
+					}
+				}
+			}();
+						
+			function onMessage(event) {
+				var action = event.name;
+				var message = event.message;
+
+				var signature = message.signature;
+				delete message.signature;
+				
+				
+				switch (action) {
+					case 'settings.get':
+						sendResponse(
+							signature, [
+								{
+									'key': message.key,
+									'value': settings.get(message.key)
+								}
+							]
+						);
+						break;
+
+					case 'settings.set':
+						settings.set(message.key, message.value);
+						sendResponse(signature);
+						break;
+						
+					default:
+						//send back a boolean if we've handled the event
+						sendResponse(signature, [
+							handleMessageWithTabManager(message)
+						]);
+						break;
+				}
+			}
+			
+			function onSettingChange(event) {
+				settings.clearCache();
+			}
+			
+			function sendResponse(signature, arguments) {
+				arguments = arguments || [];
+				
+				safari.application.activeBrowserWindow.activeTab.page.dispatchMessage(MessageAPI.RESPONSE_PREFIX + signature, arguments);
+			}
+			
+			safari.application.addEventListener('message', onMessage);
+			safari.extension.settings.addEventListener("change", onSettingChange);
+		</script>
+	</head>
+</html>
