@@ -1,3 +1,9 @@
+### Install ###
+
+ - [Marking Menu for Google Chrome™](http://www.appsforartists.com/get_app/chrome_marking_menu/?source=github)
+
+### About ###
+
 Marking Menu empowers you to surf the web with pen flicks or mouse gestures. It's a must-have extension if you have a Wacom tablet or TabletPC, but works great with a regular mouse too!
 
 In this version, you can:
